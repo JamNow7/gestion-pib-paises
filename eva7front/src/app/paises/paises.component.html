@@ -1,0 +1,96 @@
+<div class="paises-layout">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Listado de Países</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="errorBackend" class="error-container">
+        <mat-icon class="error-icon">error</mat-icon>
+        <span class="error-message">{{ errorBackend }}</span>
+      </div>
+
+      <div class="pagination-controls">
+        <span>Registros por página:</span>
+        <button mat-stroked-button (click)="setLimit(5)" [color]="limit === 5 ? 'primary' : ''">5</button>
+        <button mat-stroked-button (click)="setLimit(10)" [color]="limit === 10 ? 'primary' : ''">10</button>
+        <button mat-stroked-button (click)="setLimit(20)" [color]="limit === 20 ? 'primary' : ''">20</button>
+        <button mat-icon-button (click)="actualizar()" color="primary">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <ng-container *ngIf="paises$ | async as paises">
+        <table mat-table [dataSource]="paises" class="mat-elevation-z0">
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let pais">
+              <span class="flag-icon-container">
+                <img
+                  *ngIf="getFlagCode(pais.nombre)"
+                  [src]="'/' + getFlagPath(pais.nombre)"
+                  class="flag-img"
+                  [alt]="pais.nombre"
+                />
+                {{ pais.nombre }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="continente">
+            <th mat-header-cell *matHeaderCellDef>Continente</th>
+            <td mat-cell *matCellDef="let pais">{{ pais.continente }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="poblacion">
+            <th mat-header-cell *matHeaderCellDef>Población</th>
+            <td mat-cell *matCellDef="let pais">{{ pais.poblacion | number }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="pib_2019">
+            <th mat-header-cell *matHeaderCellDef>PIB 2019</th>
+            <td mat-cell *matCellDef="let pais">{{ pais.pib_2019 | number }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="pib_2020">
+            <th mat-header-cell *matHeaderCellDef>PIB 2020</th>
+            <td mat-cell *matCellDef="let pais">{{ pais.pib_2020 | number }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let pais">
+              <button mat-icon-button color="warn" (click)="eliminarPais(pais.nombre)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <div class="navigation-controls">
+          <button mat-stroked-button (click)="anterior()" [disabled]="offset <= 0">
+            <mat-icon>chevron_left</mat-icon> Anterior
+          </button>
+          <button mat-stroked-button (click)="siguiente()">
+            Siguiente <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="map-wrapper">
+    <mat-card class="map-card">
+      <mat-card-header>
+        <mat-card-title>Mapa</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <img src="/world-map.jpg" alt="Mapa" class="map-image" />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

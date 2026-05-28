@@ -1,0 +1,54 @@
+.paises-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.form-card {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  left: 580px;
+  top: -230px;
+}
+
+
+.create-card {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  left: 580px;
+  top: -230px;
+}
+
+
+.map-wrapper {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  align-items: flex-start;
+  margin-top: -580px;
+}
+
+.map-card {
+  width: 100%;
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .paises-layout {
+    flex-direction: column;
+  }
+
+  .map-wrapper {
+    min-width: 0;
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,73 @@
+.crear-pais-card {
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+
+.crear-pais-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field ::ng-deep .mat-mdc-form-field-flex {
+  min-height: 40px;
+}
+
+mat-form-field ::ng-deep .mat-mdc-text-field-wrapper {
+  padding-bottom: 0;
+}
+
+mat-form-field ::ng-deep .mat-mdc-form-field-infix {
+  padding: 8px 0;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background-color: #ffebee;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.error-icon {
+  color: #d32f2f;
+  font-size: 14px;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 12px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.form-actions button {
+  flex: 1;
+}
+
+mat-card-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+mat-card-header {
+  padding: 8px 12px;
+}
+
+mat-card-content {
+  padding: 12px;
+}
+
+button {
+  height: 32px;
+}
