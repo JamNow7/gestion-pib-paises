@@ -2,12 +2,10 @@ import pool from "../db.js";
 
 //GET Obtiene países paginados por limit y offset.
 export const getPaises = async (req, res) => {
-  // Lee parámetros de paginación; si no vienen, usa valores por defecto.
   const limit = parseInt(req.query.limit) || 10;
   const offset = parseInt(req.query.offset) || 0;
 
   try {
-    // Consulta países junto con su PIB usando JOIN.
     const result = await pool.query(
       `SELECT p.nombre, p.continente, p.poblacion, pp.pib_2019, pp.pib_2020
        FROM paises p
@@ -17,11 +15,10 @@ export const getPaises = async (req, res) => {
       [limit, offset]
     );
 
-    // Devuelve los registros encontrados.
-    res.json(result.rows);
+    res.status(200).json({ ok: true, data: result.rows });
   } catch (error) {
     console.error("Error al obtener países:", error);
-    res.status(500).json({ mensaje: "Error al obtener países" });
+    res.status(500).json({ ok: false, message: "Error al obtener países" });
   }
 };
 
@@ -29,14 +26,8 @@ export const getPaises = async (req, res) => {
 export const crearPais = async (req, res) => {
   const { nombre, continente, poblacion, pib_2019, pib_2020 } = req.body;
 
-  if (
-    !nombre ||
-    !continente ||
-    poblacion === undefined ||
-    pib_2019 === undefined ||
-    pib_2020 === undefined
-  ) {
-    return res.status(400).json({ mensaje: "Todos los campos son requeridos" });
+  if (!nombre || !continente || poblacion === undefined || pib_2019 === undefined || pib_2020 === undefined) {
+    return res.status(400).json({ ok: false, message: "Todos los campos son requeridos" });
   }
 
   const client = await pool.connect();
@@ -64,11 +55,11 @@ export const crearPais = async (req, res) => {
 
     await client.query("COMMIT");
 
-    res.status(201).json({ mensaje: `País '${nombre}' agregado correctamente` });
+    res.status(201).json({ ok: true, message: `País '${nombre}' agregado correctamente` });
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error al crear el país:", error);
-    res.status(500).json({ mensaje: "Error al crear el país" });
+    res.status(500).json({ ok: false, message: "Error al crear el país" });
   } finally {
     client.release();
   }
@@ -82,14 +73,15 @@ export const eliminarPais = async (req, res) => {
   try {
     await client.query("BEGIN");
 
-    const check = await client.query(
-      "SELECT nombre FROM paises WHERE nombre = $1",
+    const check = await client.query("      SELECT nombre FROM paises WHERE nombre = $1",
       [nombre]
     );
 
     if (check.rowCount === 0) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ mensaje: `País '${nombre}' no encontrado` });
+      return res
+        .status(404)
+        .json({ ok: false, message: `País '${nombre}' no encontrado` });
     }
 
     await client.query("DELETE FROM paises_pib WHERE nombre = $1", [nombre]);
@@ -105,11 +97,11 @@ export const eliminarPais = async (req, res) => {
 
     await client.query("COMMIT");
 
-    res.json({ mensaje: `País '${nombre}' eliminado correctamente` });
+    res.status(200).json({ ok: true, message: `País '${nombre}' eliminado correctamente` });
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error al eliminar el país:", error);
-    res.status(500).json({ mensaje: "Error al eliminar el país" });
+    res.status(500).json({ ok: false, message: "Error al eliminar el país" });
   } finally {
     client.release();
   }
