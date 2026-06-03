@@ -1,0 +1,31 @@
+<div class="api-version-selector">
+  <div class="version-info">
+    <span class="version-label">API Version:</span>
+    <span class="version-badge" [class.v1]="currentVersion === 'v1'" [class.v2]="currentVersion === 'v2'">
+      {{ currentVersion.toUpperCase() }}
+    </span>
+  </div>
+  <div class="version-actions">
+    <button
+      mat-icon-button
+      (click)="switchVersion('v1')"
+      [disabled]="currentVersion === 'v1'"
+      title="Usar V1 (Simple)">
+      <mat-icon>looks_one</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      (click)="switchVersion('v2')"
+      [disabled]="currentVersion === 'v2'"
+      title="Usar V2 (Mejorado)">
+      <mat-icon>looks_two</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      (click)="resetToDefault()"
+      class="reset-button"
+      title="Resetear a V1">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+</div>
