@@ -1,84 +1,33 @@
 # 🌎 Sistema de Gestión de Países
 
-Proyecto Full Stack desarrollado con Node.js, Express, PostgreSQL y Angular 19.
-
-Permite administrar países mediante una API REST y una interfaz web moderna, incluyendo creación, eliminación, paginación y auditoría de operaciones.
+Sistema Full Stack para la administración de información de países, desarrollado con **Node.js**, **Express**, **PostgreSQL** y **Angular 19**.
 
 ## 📋 Tabla de Contenidos
 
-- Descripción del Proyecto
-- Capturas de Pantalla
-- Estructura del Proyecto
-- Características
-- Tecnologías Utilizadas
-- Inicio Rápido
-- Documentación Detallada
-- Configuración
-- Contribución
-- Autor
+- [Descripción del Proyecto](#-descripción-del-proyecto)
+- [Características](#-características)
+- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Requisitos Previos](#-requisitos-previos)
+- [Instalación y Configuración](#-instalación-y-configuración)
+- [Documentación](#-documentación)
+- [Solución de Problemas](#-solución-de-problemas)
+- [Autor](#-autor)
 
 ---
 
 ## 🎯 Descripción del Proyecto
 
-Este proyecto permite administrar información de países de manera completa, incluyendo datos geográficos, demográficos y económicos. Ofrece una interfaz moderna para listar, crear y eliminar países, con un backend robusto que maneja transacciones y auditoría.
+Este sistema permite administrar información completa de países, incluyendo datos geográficos, demográficos y económicos (PIB). Ofrece una interfaz web moderna para la gestión integral de países mediante una API REST robusta con sistema de auditoría integrado.
 
 ### Funcionalidades Principales
 
-- Gestión de Países: Listado, creación y eliminación de países
-- Información Completa: Continente, población, PIB 2019 y PIB 2020
-- Paginación: Navegación eficiente de grandes volúmenes de datos
-- Sistema de Auditoría: Registro automático de todas las operaciones
-- Interfaz Moderna: UI responsiva con Angular Material
-- Manejo de Transacciones: Integridad de datos garantizada
-
----
-
-## 📸 Capturas de Pantalla
-
-### Listado de Países
-
-Listado de Países
-
-### Creación de País
-
-Creación de País
-
-### País Agregado Correctamente
-
-País Agregado
-
-### Eliminación de un País
-
-Eliminación de un País
-
----
-
-## 📁 Estructura del Proyecto
-
-## 📁 Estructura del Proyecto
-
-
-Evaluacion7
-│
-├── eva7                     # Backend Node.js + Express + PostgreSQL
-│   ├── src
-│   ├── database
-│   ├── queries
-│   ├── readme.md
-│   └── .env.example
-│
-├── eva7front                # Frontend Angular 19
-│   ├── src
-│   ├── public
-│   ├── README.md
-│   └── .env.example
-│
-└── docs                     # Capturas de pantalla
-    ├── listado-paises.png
-    ├── creacion-pais.png
-    ├── pais-agregado.png
-    └── eliminacion-pais.png
+- **Gestión Completa de Países**: Listado, creación y eliminación de registros
+- **Información Detallada**: Continente, población, PIB 2019 y PIB 2020
+- **Sistema de Paginación**: Navegación eficiente para grandes volúmenes de datos
+- **Auditoría de Operaciones**: Registro automático de todas las transacciones
+- **Interfaz Moderna**: UI responsiva desarrollada con Angular Material
+- **Integridad de Datos**: Manejo de transacciones ACID con PostgreSQL
 
 ---
 
@@ -86,21 +35,21 @@ Evaluacion7
 
 ### Backend (eva7)
 
-- ✅ REST API para operaciones CRUD
-- ✅ PostgreSQL como base de datos relacional
+- ✅ API REST para operaciones CRUD completas
+- ✅ PostgreSQL como motor de base de datos relacional
 - ✅ Manejo de transacciones (BEGIN / COMMIT / ROLLBACK)
 - ✅ Paginación eficiente mediante LIMIT/OFFSET
-- ✅ Auditoría automática de operaciones
-- ✅ Configuración CORS
-- ✅ Variables de entorno mediante .env
+- ✅ Sistema de auditoría automático de operaciones
+- ✅ Configuración CORS para solicitudes cross-origin
+- ✅ Variables de entorno con archivo .env
 
 ### Frontend (eva7front)
 
-- ✅ Angular 19
-- ✅ Angular Material
-- ✅ TypeScript
-- ✅ Variables de entorno
-- ✅ Diseño responsivo
+- ✅ Angular 19 con arquitectura modular
+- ✅ Angular Material para componentes UI
+- ✅ TypeScript para tipado estático
+- ✅ Variables de entorno configurables
+- ✅ Diseño responsivo y adaptable
 - ✅ Formularios reactivos
 - ✅ Programación reactiva con RxJS
 
@@ -110,72 +59,117 @@ Evaluacion7
 
 ### Backend
 
-- Node.js
-- Express
-- PostgreSQL
-- pg
-- dotenv
-- cors
+| Tecnología | Versión | Descripción |
+|------------|---------|-------------|
+| Node.js | 18+ | Runtime environment |
+| Express | Latest | Framework web minimalista |
+| PostgreSQL | 12+ | Base de datos relacional |
+| pg | Latest | Cliente PostgreSQL para Node.js |
+| dotenv | Latest | Manejo de variables de entorno |
+| cors | Latest | Middleware para CORS |
 
 ### Frontend
 
-- Angular 19
-- TypeScript 5.7
-- Angular Material
-- RxJS 7.8
-- flag-icons
+| Tecnología | Versión | Descripción |
+|------------|---------|-------------|
+| Angular | 19 | Framework web moderno |
+| TypeScript | 5.7 | Superset de JavaScript |
+| Angular Material | Latest | Biblioteca de componentes UI |
+| RxJS | 7.8 | Programación reactiva |
+| flag-icons | Latest | Iconos de banderas nacionales |
 
 ---
 
-## 🚀 Inicio Rápido
+## 📁 Estructura del Proyecto
 
-### Requisitos Previos
+```
+gestion-pib-paises/
+│
+├── eva7/                     # Backend Node.js + Express + PostgreSQL
+│   ├── src/                  # Código fuente del servidor
+│   ├── database/             # Scripts de base de datos
+│   ├── queries/              # Consultas SQL
+│   ├── .env.example          # Plantilla de configuración
+│   └── readme.md             # Documentación backend
+│
+├── eva7front/                # Frontend Angular 19
+│   ├── src/                  # Código fuente de la aplicación
+│   ├── public/               # Archivos estáticos
+│   ├── .env.example          # Plantilla de configuración
+│   └── README.md             # Documentación frontend
+│
+└── docs/                     # Documentación y capturas
+    ├── listado-paises.png
+    ├── creacion-pais.png
+    ├── pais-agregado.png
+    └── eliminacion-pais.png
+```
+
+---
+
+## 📦 Requisitos Previos
 
 Antes de comenzar, asegúrate de tener instalado:
 
-- Node.js (v18 o superior)
-- PostgreSQL (v12 o superior)
-- Angular CLI
+- **Node.js** (v18 o superior)
+- **PostgreSQL** (v12 o superior)
+- **Angular CLI** (última versión)
 
-bash npm install -g @angular/cli 
-
-### 1. Backend
-
-bash cd eva7  npm install  cp .env.example .env  # Editar .env con las credenciales de PostgreSQL  createdb eva7  npm run dev 
-
-Backend disponible en:
-
-text http://localhost:4000 
-
-### 2. Frontend
-
-bash cd eva7front  npm install  ng serve 
-
-Frontend disponible en:
-
-text http://localhost:4200 
-
-### Verificación
-
-bash curl http://localhost:4000/paises 
-
-Abrir en navegador:
-
-text http://localhost:4200 
+```bash
+# Instalar Angular CLI globalmente
+npm install -g @angular/cli
+```
 
 ---
 
-## 📚 Documentación Detallada
+## 🚀 Instalación y Configuración
 
-Para información específica de cada componente:
+### 1. Configuración del Backend
 
-- Backend: eva7/readme.md
-- Frontend: eva7front/README.md
+```bash
+# Navegar al directorio del backend
+cd eva7
 
-### Archivos de Configuración
+# Instalar dependencias
+npm install
 
-- eva7/.env.example
-- eva7front/.env.example
+# Crear archivo de configuración
+cp .env.example .env
+
+# Editar .env con tus credenciales de PostgreSQL
+# Luego, crear la base de datos
+createdb eva7
+
+# Iniciar el servidor en modo desarrollo
+npm run dev
+```
+
+El backend estará disponible en: `http://localhost:4000`
+
+### 2. Configuración del Frontend
+
+```bash
+# Navegar al directorio del frontend
+cd eva7front
+
+# Instalar dependencias
+npm install
+
+# Iniciar el servidor de desarrollo
+ng serve
+```
+
+El frontend estará disponible en: `http://localhost:4200`
+
+### 3. Verificación de Instalación
+
+```bash
+# Verificar que el backend esté funcionando
+curl http://localhost:4000/paises
+
+# Abrir en el navegador
+open http://localhost:4200
+```
 
 ---
 
@@ -183,58 +177,87 @@ Para información específica de cada componente:
 
 ### Backend (.env)
 
-env DB_USER=postgres DB_PASSWORD=tu_contraseña_aqui DB_HOST=localhost DB_PORT=5432 DB_DATABASE=eva7 PORT=4000 
+```env
+DB_USER=postgres
+DB_PASSWORD=tu_contraseña_aqui
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=eva7
+PORT=4000
+```
 
 ### Frontend (environment.ts)
 
-typescript export const environment = {   production: false,   apiUrl: 'http://localhost:4000',   apiEndpoint: '/paises',   fullApiUrl: 'http://localhost:4000/paises' }; 
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:4000',
+  apiEndpoint: '/paises',
+  fullApiUrl: 'http://localhost:4000/paises'
+};
+```
+
+---
+
+## 📚 Documentación
+
+Para información específica de cada componente:
+
+- **Backend**: [`eva7/readme.md`](eva7/readme.md)
+- **Frontend**: [`eva7front/README.md`](eva7front/README.md)
 
 ---
 
 ## 🔧 Solución de Problemas
 
-### Backend no inicia
+### El backend no inicia
 
-1. Verificar que PostgreSQL esté ejecutándose.
-2. Revisar las credenciales del archivo .env.
-3. Confirmar que la base de datos eva7 exista.
+1. Verificar que PostgreSQL esté ejecutándose
+2. Revisar las credenciales en el archivo `.env`
+3. Confirmar que la base de datos `eva7` exista
+4. Verificar que el puerto 4000 no esté en uso
 
-### Frontend no conecta con backend
+```bash
+# Verificar status de PostgreSQL
+pg_isready
 
-1. Confirmar que el backend esté ejecutándose.
-2. Verificar configuración de CORS.
-3. Revisar la URL configurada en environment.ts.
+# Crear base de datos si no existe
+createdb eva7
+```
+
+### El frontend no conecta con el backend
+
+1. Confirmar que el backend esté ejecutándose
+2. Verificar la configuración de CORS
+3. Revisar la URL configurada en `environment.ts`
+4. Abrir las DevTools del navegador para ver errores de red
 
 ---
 
 ## 🤝 Contribución
 
-Proyecto desarrollado con fines académicos y de aprendizaje.
+Este proyecto fue desarrollado con fines académicos y de aprendizaje.
 
-Las sugerencias y mejoras son bienvenidas.
+Las sugerencias, mejoras y contribuciones son bienvenidas.
 
 ---
 
 ## 👤 Autor
 
-Claudio Cataldo
+**Claudio Cataldo**
 
-GitHub: https://github.com/JamNow7
+- GitHub: [JamNow7](https://github.com/JamNow7)
 
 ---
 
 ## 📄 Licencia
 
-Proyecto de uso académico y educativo.
+Este proyecto es de uso académico y educativo.
 
 ---
 
-## 🎯 Próximos Pasos
+<div align="center">
 
-bash # Backend cd eva7 && npm run dev  # Frontend cd eva7front && ng serve 
+**⭐ Si encuentras útil este proyecto, considera darle una estrella en GitHub**
 
-Abrir:
-
-text http://localhost:4200 
-
-¡Listo! Ya puedes gestionar países desde la interfaz w
+</div>
