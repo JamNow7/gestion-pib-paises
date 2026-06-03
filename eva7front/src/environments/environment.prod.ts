@@ -5,7 +5,9 @@ export const environment = {
   // Reemplaza con la URL real de tu backend en producción
   apiUrl: 'https://api.ejemplo.com',
   // Endpoint base para países
-  apiEndpoint: '/paises',
+  apiEndpoint: '/api/v1/paises',
   // URL completa para facilitar uso
-  fullApiUrl: 'https://api.ejemplo.com/paises'
+  fullApiUrl: 'https://api.ejemplo.com/api/v1/paises',
+  // Versión de la API
+  apiVersion: 'v1'
 };

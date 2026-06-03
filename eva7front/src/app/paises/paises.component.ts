@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { CountriesService } from '../services/countries.services';
+import { CountriesService, Pais } from '../services/countries.services';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-paises',
@@ -27,7 +28,7 @@ export class PaisesComponent {
   private countriesService = inject(CountriesService);
   limit = 10;
   offset = 0;
-  paises$ = this.countriesService.getPaises(this.limit, this.offset);
+  paises$: Observable<Pais[]> = this.countriesService.getPaises(this.limit, this.offset);
   errorBackend: string = '';
   displayedColumns: string[] = ['nombre', 'continente', 'poblacion', 'pib_2019', 'pib_2020', 'acciones'];
 
@@ -63,8 +64,8 @@ export class PaisesComponent {
       },
       error: (err: any) => {
         this.errorBackend =
-          err?.error?.mensaje ||
           err?.error?.message ||
+          err?.error?.mensaje ||
           err?.message ||
           'Error al eliminar el país';
       }
