@@ -8,12 +8,10 @@ import {
 
 const router = Router();
 
-// Endpoints principales
 router.get("/paises", getPaisesV2);
 router.post("/paises", crearPaisV2);
 router.delete("/paises/:nombre", eliminarPaisV2);
 
-// V2: Nuevo endpoint de búsqueda por continente
 router.get("/paises/continente/:continente", getPaisesByContinenteV2);
 
 export default router;

@@ -47,11 +47,9 @@ export class CrearPaisComponent {
 
     this.countriesService.crearPais(data as any).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend:', response);
         this.form.reset();
       },
       error: (err: any) => {
-        console.log('Error del backend:', err);
         this.errorCrearBackend =
           err?.error?.mensaje ||
           err?.error?.message ||

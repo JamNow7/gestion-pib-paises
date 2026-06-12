@@ -66,7 +66,6 @@ export class BuscarPaisContinenteComponent {
     return this.countriesService.getVersion();
   }
 
-  // Método para obtener código de bandera (copiado del componente principal)
   getFlagCode(nombre: string): string {
     let nombreLower = nombre.toLowerCase();
     nombreLower = nombreLower.normalize('NFD').replace(/[\u0300-\u036f]/g, '');

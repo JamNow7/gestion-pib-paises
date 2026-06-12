@@ -16,7 +16,6 @@ export class ApiVersionSelectorComponent {
   switchVersion(version: 'v1' | 'v2') {
     this.countriesService.setVersion(version);
     this.currentVersion = version;
-    // Recargar página para aplicar cambios
     if (typeof window !== 'undefined') {
       window.location.reload();
     }

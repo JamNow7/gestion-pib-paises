@@ -73,17 +73,14 @@ export class PaisesComponent {
   }
 
   getFlagCode(nombre: string): string {
-    // Normalizar: minúsculas, eliminar tildes
     let nombreLower = nombre.toLowerCase();
     nombreLower = nombreLower.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-    // Agregar variantes comunes para España con encoding problemático
     if (nombreLower.includes('esp')) {
       return 'es';
     }
 
     const flagMap: { [key: string]: string } = {
-      // Europa
       'luxemburgo': 'lu',
       'suiza': 'ch',
       'noruega': 'no',
@@ -138,7 +135,6 @@ export class PaisesComponent {
       'tajikistan': 'tj',
       'turkmenistan': 'tm',
 
-      // América
       'estados unidos': 'us',
       'united states': 'us',
       'usa': 'us',
@@ -167,7 +163,6 @@ export class PaisesComponent {
       'nicaragua': 'ni',
       'jamaica': 'jm',
 
-      // Asia
       'china': 'cn',
       'india': 'in',
       'japon': 'jp',
@@ -221,7 +216,6 @@ export class PaisesComponent {
       'omán': 'om',
       'yemen': 'ye',
 
-      // África
       'egipto': 'eg',
       'egypt': 'eg',
       'sudafrica': 'za',
@@ -256,7 +250,6 @@ export class PaisesComponent {
       'somalia': 'so',
       'eritrea': 'er',
 
-      // Oceanía
       'australia': 'au',
       'nueva zelanda': 'nz',
       'new zealand': 'nz',
@@ -268,7 +261,6 @@ export class PaisesComponent {
       'samoa': 'ws',
       'tonga': 'to',
 
-      // Otros
       'un': 'un',
       'onu': 'un'
     };

@@ -14,9 +14,8 @@ app.use(cors({
 
 app.use(express.json());
 
-// Versionamiento de API
-app.use("/api/v1", paisesRoutes);      // Versión 1 (estable)
-app.use("/api/v2", paisesRoutesV2);     // Versión 2 (nueva)
+app.use("/api/v1", paisesRoutes);
+app.use("/api/v2", paisesRoutesV2);
 
 app.listen(PORT);
 console.log(`API escuchando en http://localhost:${PORT}`);

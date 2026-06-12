@@ -1,6 +1,5 @@
 import pool from "../db.js";
 
-//GET Obtiene países paginados por limit y offset.
 export const getPaises = async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
   const offset = parseInt(req.query.offset) || 0;
@@ -22,7 +21,6 @@ export const getPaises = async (req, res) => {
   }
 };
 
-//POST Inserta un país en paises, paises_pib y registra la acción en paises_data_web.
 export const crearPais = async (req, res) => {
   const { nombre, continente, poblacion, pib_2019, pib_2020 } = req.body;
 
@@ -65,7 +63,6 @@ export const crearPais = async (req, res) => {
   }
 };
 
-//DELETE Elimina un país por nombre y registra la acción en paises_data_web.
 export const eliminarPais = async (req, res) => {
   const nombre = req.params.nombre.trim();
   const client = await pool.connect();

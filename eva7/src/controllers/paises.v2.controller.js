@@ -1,6 +1,5 @@
 import pool from "../db.js";
 
-// V2: GET países con formato mejorado y metadata
 export const getPaisesV2 = async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
   const offset = parseInt(req.query.offset) || 0;
@@ -15,7 +14,6 @@ export const getPaisesV2 = async (req, res) => {
       [limit, offset]
     );
 
-    // V2: Formato mejorado con metadata
     const totalResult = await pool.query("SELECT COUNT(*) FROM paises");
     const total = parseInt(totalResult.rows[0].count);
 
@@ -43,7 +41,6 @@ export const getPaisesV2 = async (req, res) => {
   }
 };
 
-// V2: POST crear país con respuesta mejorada
 export const crearPaisV2 = async (req, res) => {
   const { nombre, continente, poblacion, pib_2019, pib_2020 } = req.body;
 
@@ -80,7 +77,6 @@ export const crearPaisV2 = async (req, res) => {
 
     await client.query("COMMIT");
 
-    // V2: Respuesta con datos del país creado
     res.status(201).json({
       success: true,
       message: `País '${nombre}' creado exitosamente`,
@@ -109,7 +105,6 @@ export const crearPaisV2 = async (req, res) => {
   }
 };
 
-// V2: DELETE eliminar país con confirmación mejorada
 export const eliminarPaisV2 = async (req, res) => {
   const nombre = req.params.nombre.trim();
   const client = await pool.connect();
@@ -130,7 +125,6 @@ export const eliminarPaisV2 = async (req, res) => {
       });
     }
 
-    // V2: Guardar datos antes de eliminar para confirmación
     const deletedCountry = check.rows[0];
 
     await client.query("DELETE FROM paises_pib WHERE nombre = $1", [nombre]);
@@ -146,7 +140,6 @@ export const eliminarPaisV2 = async (req, res) => {
 
     await client.query("COMMIT");
 
-    // V2: Respuesta con datos del país eliminado
     res.status(200).json({
       success: true,
       message: `País '${nombre}' eliminado correctamente`,
@@ -169,7 +162,6 @@ export const eliminarPaisV2 = async (req, res) => {
   }
 };
 
-// V2: NUEVO ENDPOINT - Búsqueda por continente
 export const getPaisesByContinenteV2 = async (req, res) => {
   const { continente } = req.params;
   const limit = parseInt(req.query.limit) || 10;

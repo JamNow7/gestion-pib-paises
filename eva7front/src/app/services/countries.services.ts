@@ -49,7 +49,6 @@ export class CountriesService {
   private currentVersion = 'v1';
 
   constructor() {
-    // Solo acceder a localStorage en el navegador
     if (this.isBrowser()) {
       const savedVersion = localStorage.getItem(this.STORAGE_KEY);
       if (savedVersion === 'v1' || savedVersion === 'v2') {
@@ -58,12 +57,10 @@ export class CountriesService {
     }
   }
 
-  // Verificar si estamos en el navegador
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
 
-  // Cambiar versión de la API
   setVersion(version: 'v1' | 'v2') {
     this.currentVersion = version;
     if (this.isBrowser()) {
@@ -71,12 +68,10 @@ export class CountriesService {
     }
   }
 
-  // Obtener versión actual
   getVersion(): string {
     return this.currentVersion || 'v1';
   }
 
-  // URL dinámica según versión
   private getUrl(endpoint: string): string {
     return `${this.baseUrl}/api/${this.currentVersion}${endpoint}`;
   }
@@ -131,7 +126,6 @@ export class CountriesService {
     }
   }
 
-  // V2: Nueva funcionalidad - búsqueda por continente
   getPaisesByContinente(continente: string, limit = 10, offset = 0): Observable<Pais[]> {
     if (this.currentVersion !== 'v2') {
       console.warn('Búsqueda por continente solo disponible en V2');
