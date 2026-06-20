@@ -1,155 +1,323 @@
-# 🌎 Sistema de Gestión de Países con API Versionada
+# 🌍 Gestión PIB Países | Full Stack Application
 
-Sistema Full Stack para la administración de información de países, desarrollado con **Node.js**, **Express**, **PostgreSQL** y **Angular 19**.
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green)](https://nodejs.org/)
+[![Angular](https://img.shields.io/badge/Angular-19-red)](https://angular.dev/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue)](https://www.postgresql.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)](https://www.typescriptlang.org/)
+[![Express](https://img.shields.io/badge/Express-Latest-grey)](https://expressjs.com/)
+[![License](https://img.shields.io/badge/License-Academic-yellow)]()
 
-**¡NOW WITH API VERSIONING!** 🚀 Implementation following **Fundamentos-de-API-REST** patterns.
+> **Sistema Full Stack con API REST versionada (V1/V2)** para gestión de datos geográficos y económicos de países con transacciones ACID y auditoría integrada
 
-## 📋 Tabla de Contenidos
+---
 
-- [Descripción del Proyecto](#-descripción-del-proyecto)
-- [Sistema de Versionamiento](#-sistema-de-versionamiento)
+## 📋 Índice
+
+- [Descripción](#-descripción)
+- [Stack Tecnológico](#️-stack-tecnológico)
+- [Highlights Técnicos](#-highlights-técnicos)
+- [Arquitectura](#-arquitectura-del-sistema)
 - [Características](#-características)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación y Configuración](#-instalación-y-configuración)
-- [Uso del Sistema](#-uso-del-sistema)
-- [Documentación](#-documentación)
-- [Solución de Problemas](#-solución-de-problemas)
+- [Demo](#-demo-del-sistema)
+- [Habilidades Demostradas](#-habilidades-demostradas)
+- [Quick Start](#-quick-start)
+- [API Versioning](#-sistema-de-versionamiento)
+- [Configuración](#-configuración)
+- [Troubleshooting](#-solución-de-problemas)
 - [Autor](#-autor)
 
 ---
 
-## 🎯 Descripción del Proyecto
+## 🎯 Descripción
 
-Este sistema permite administrar información completa de países, incluyendo datos geográficos, demográficos y económicos (PIB). Ofrece una interfaz web moderna para la gestión integral de países mediante una **API REST versionada** con sistema de auditoría integrado.
+Sistema completo para administrar información geográfica, demográfica y económica de países con un enfoque especial en datos de PIB comparativos entre 2019 y 2020. Implementa **API REST versionada** siguiendo patrones profesionales de diseño con compatibilidad hacia atrás.
 
 ### Funcionalidades Principales
 
-- **🌍 Gestión Completa de Países**: Listado, creación y eliminación de registros
-- **📊 Información Detallada**: Continente, población, PIB 2019 y PIB 2020
-- **📖 Sistema de Paginación**: Navegación eficiente para grandes volúmenes de datos
-- **📝 Auditoría de Operaciones**: Registro automático de todas las transacciones
-- **🎨 Interfaz Moderna**: UI responsiva desarrollada con Angular Material
-- **🔒 Integridad de Datos**: Manejo de transacciones ACID con PostgreSQL
-- **🚀 API Versionada**: Sistema profesional de versionamiento V1/V2
+- **🌍 Gestión Integral**: CRUD completo de países con validaciones
+- **📊 Datos Económicos**: PIB 2019 vs PIB 2020 con comparativas
+- **🔄 API Versionada**: Sistema V1/V2 con evolución controlada
+- **🔒 ACID Transactions**: Integridad de datos garantizada
+- **📝 Auditoría**: Registro automático de todas las operaciones
+- **🔍 Búsqueda Avanzada**: Filtrado por continente (V2)
+- **📖 Paginación**: Navegación eficiente con metadata completa
+- **🎨 UI Moderna**: Angular Material con diseño responsivo
 
 ---
 
-## 🔄 Sistema de Versionamiento
+## 🛠️ Stack Tecnológico
 
-El proyecto implementa un **sistema de versionamiento de API** siguiendo los patrones de **Fundamentos-de-API-REST**, permitiendo evolución controlada y compatibilidad hacia atrás.
+### Backend
 
-### **Versiones Disponibles**
+| Tecnología | Versión | Propósito |
+|------------|---------|-----------|
+| ![Node.js](https://img.shields.io/badge/Node.js-18+-green) | 18+ | Runtime environment |
+| ![Express](https://img.shields.io/badge/Express-Latest-grey) | 5.2 | Framework web |
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue) | 12+ | Base de datos relacional |
+| ![ES Modules](https://img.shields.io/badge/ES_Modules-Yes-blue) | - | Sistema de módulos |
+| ![dotenv](https://img.shields.io/badge/dotenv-Latest-purple) | Latest | Variables de entorno |
+| ![CORS](https://img.shields.io/badge/CORS-Enabled-green) | - | Cross-origin requests |
 
-#### **V1 (Estable)** - Formato Simple
-- `GET /api/v1/paises` - Listado de países
-- `POST /api/v1/paises` - Crear país
-- `DELETE /api/v1/paises/:nombre` - Eliminar país
+### Frontend
 
-#### **V2 (Mejorada)** - Formato Optimizado
-- `GET /api/v2/paises` - Listado con metadata mejorada
-- `POST /api/v2/paises` - Crear país con respuesta detallada
-- `DELETE /api/v2/paises/:nombre` - Eliminar con confirmación
-- `GET /api/v2/paises/continente/:continente` - **NUEVO: Búsqueda por continente**
+| Tecnología | Versión | Propósito |
+|------------|---------|-----------|
+| ![Angular](https://img.shields.io/badge/Angular-19-red) | 19.2 | Framework web |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue) | 5.7 | Tipado estático |
+| ![Angular Material](https://img.shields.io/badge/Material-19-purple) | 19.2 | Componentes UI |
+| ![RxJS](https://img.shields.io/badge/RxJS-7.8-red) | 7.8 | Programación reactiva |
+| ![Standalone](https://img.shields.io/badge/Standalone-Yes-green) | - | Nueva arquitectura |
 
-### **Características del Versionamiento**
+---
 
-- ✅ **Compatibilidad hacia atrás**: V1 sigue funcionando perfectamente
-- ✅ **Evolución controlada**: V2 introduce mejoras sin romper V1
-- ✅ **Selector dinámico**: Cambio entre versiones desde el frontend
-- ✅ **Formatos diferentes**: Respuestas adaptadas a cada versión
-- ✅ **Nuevas funcionalidades**: V2 incluye características exclusivas
+## ⭐ Highlights Técnicos
 
-### **Diferencias de Formato**
+### 🚀 API Versionada Profesional
 
-**V1 Response:**
-```json
-{
-  "ok": true,
-  "data": [{ "nombre": "Chile", "poblacion": 19000000 }]
-}
-```
+- **Versionamiento V1/V2**: URLs diferenciadas con `/api/v1/` y `/api/v2/`
+- **Compatibilidad hacia atrás**: Ambas versiones operativas simultáneamente
+- **Respuestas diferenciadas**: Formatos optimizados por versión
+- **Metadata en V2**: Paginación, timestamp y version info
 
-**V2 Response:**
-```json
+```javascript
+// V1 Response
+{ "ok": true, "data": [...] }
+
+// V2 Response
 {
   "success": true,
   "result": {
-    "countries": [{ "nombre": "Chile", "poblacion": 19000000 }],
-    "pagination": {
-      "total": 5,
-      "limit": 10,
-      "offset": 0,
-      "hasMore": false
-    },
+    "countries": [...],
+    "pagination": { "total": 5, "limit": 10, "offset": 0, "hasMore": false },
     "timestamp": "2025-01-15T10:30:00.000Z",
     "version": "2.0"
   }
 }
 ```
 
-### **Uso del Frontend**
+### 🔒 Transacciones ACID
 
-El frontend incluye un **selector de versión** que permite:
-- Cambiar entre V1 y V2 con un clic
-- Ver diferencias en tiempo real
-- Acceder a funcionalidades exclusivas de V2
-- Persistencia de la versión seleccionada
+- **BEGIN/COMMIT/ROLLBACK**: Manejo completo de transacciones
+- **Sistema de auditoría**: Tabla `paises_data_web` registra operaciones
+- **Integridad referencial**: Foreign keys y restricciones
+- **ON CONFLICT**: Upserts para mantener historial
+
+### 🎨 Angular Moderno (v19)
+
+- **Standalone Components**: Nueva arquitectura sin NgModules
+- **RxJS Reactive Streams**: Programación reactiva pura
+- **Angular Material**: Componentes UI enterprise-grade
+- **TypeScript E2E**: Tipado completo frontend y backend
+
+### 📊 Características Avanzadas
+
+- **Paginación eficiente**: LIMIT/OFFSET con COUNT(*) para total
+- **Búsqueda por continente**: Endpoint exclusivo V2
+- **Mapeo de banderas**: Sistema inteligente con normalización NFD
+- **Persistencia de versión**: localStorage para selección V1/V2
+
+---
+
+## 🏗️ Arquitectura del Sistema
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     FRONTEND (Angular 19)                    │
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │   Listado    │  │   Creación   │  │   Búsqueda   │      │
+│  │   Países     │  │   Países     │  │  Continente  │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│         │                   │                   │            │
+│         └───────────────────┴───────────────────┘            │
+│                             │                                │
+│                    ┌────────▼────────┐                       │
+│                    │ Service (V1/V2)  │                       │
+│                    │  + RxJS Streams  │                       │
+│                    └────────┬────────┘                       │
+└────────────────────────────┼─────────────────────────────────┘
+                             │ HTTP/REST
+                    ┌────────▼────────┐
+                    │   API GATEWAY   │
+                    │   Express.js    │
+                    │  V1 │ V2 Routes │
+                    └────────┬────────┘
+                             │
+┌────────────────────────────┼─────────────────────────────────┐
+│                    ┌────────▼────────┐                        │
+│                    │  CONTROLLERS    │                        │
+│                    │  paises.controller.js │                 │
+│                    │  paises.v2.controller.js               │
+│                    └────────┬────────┘                        │
+│                             │                                  │
+│                    ┌────────▼────────┐                        │
+│                    │  PostgreSQL     │                        │
+│                    │  • paises       │                        │
+│                    │  • paises_data  │                        │
+│                    │  • auditoría    │                        │
+│                    │  (ACID Tx)      │                        │
+│                    └─────────────────┘                        │
+│                                                             │
+│              BACKEND (Node.js + PostgreSQL)                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Flujo de Datos
+
+1. **Frontend**: Componente → Service (V1/V2 selector) → HTTP Client
+2. **API Gateway**: Express routes → Controller específico por versión
+3. **Controller**: Transacción → Queries PostgreSQL → Response formateada
+4. **Auditoría**: Cada operación se registra en `paises_data_web`
 
 ---
 
 ## ✨ Características
 
-### Backend (eva7)
+### Backend (eva7/)
 
-- ✅ **API Versionada**: Sistema V1/V2 con URLs diferenciadas
-- ✅ **REST Completo**: Operaciones CRUD en ambas versiones
-- ✅ **PostgreSQL**: Motor de base de datos relacional
-- ✅ **Transacciones ACID**: Manejo (BEGIN / COMMIT / ROLLBACK)
-- ✅ **Paginación Eficiente**: Mediante LIMIT/OFFSET
-- ✅ **Auditoría Automática**: Registro de todas las operaciones
-- ✅ **Configuración CORS**: Solicitudes cross-origin
-- ✅ **Variables de Entorno**: Archivo .env para configuración
+| Característica | Descripción |
+|----------------|-------------|
+| ✅ API Versionada | Sistema V1/V2 con URLs diferenciadas |
+| ✅ REST Completo | Operaciones CRUD en ambas versiones |
+| ✅ PostgreSQL | Base de datos relacional con transacciones |
+| ✅ ACID | BEGIN/COMMIT/ROLLBACK para integridad |
+| ✅ Paginación | LIMIT/OFFSET con metadata de total |
+| ✅ Auditoría | Registro automático de operaciones |
+| ✅ CORS | Configuración para cross-origin |
+| ✅ Variables de Entorno | Archivo .env para configuración |
 
-### Frontend (eva7front)
+### Frontend (eva7front/)
 
-- ✅ **Selector de Versión**: Cambio dinámico V1/V2 en la UI
-- ✅ **Angular 19**: Arquitectura modular y moderna
-- ✅ **Angular Material**: Componentes UI profesionales
-- ✅ **TypeScript**: Tipado estático para robustez
-- ✅ **Búsqueda por Continente**: Funcionalidad exclusiva V2
-- ✅ **Diseño Responsivo**: Adaptable a diferentes pantallas
-- ✅ **Formularios Reactivos**: Validación y gestión eficiente
-- ✅ **Programación Reactiva**: RxJS para flujos de datos
-- ✅ **Banderas Nacionales**: Identificación visual de países
+| Característica | Descripción |
+|----------------|-------------|
+| ✅ Selector de Versión | Cambio dinámico V1/V2 en UI |
+| ✅ Angular 19 | Última versión con standalone components |
+| ✅ Angular Material | Componentes UI profesionales |
+| ✅ TypeScript | Tipado estático completo |
+| ✅ RxJS | Programación reactiva |
+| ✅ Búsqueda Continente | Funcionalidad exclusiva V2 |
+| ✅ Formularios Reactivos | Validación y gestión eficiente |
+| ✅ Banderas Nacionales | Identificación visual |
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## 🎬 Demo del Sistema
 
-### Backend
+### Selector de Versión API
 
-| Tecnología | Versión | Descripción |
-|------------|---------|-------------|
-| Node.js | 18+ | Runtime environment |
-| Express | Latest | Framework web minimalista |
-| PostgreSQL | 12+ | Base de datos relacional |
-| pg | Latest | Cliente PostgreSQL para Node.js |
-| node-fetch | Latest | Cliente HTTP para pruebas |
-| dotenv | Latest | Manejo de variables de entorno |
-| cors | Latest | Middleware para CORS |
+![API Versioning](docs/api-version-2.png)
 
-### Frontend
+*Cambio dinámico entre V1 (azul) y V2 (naranja) con selector visual*
 
-| Tecnología | Versión | Descripción |
-|------------|---------|-------------|
-| Angular | 19 | Framework web moderno |
-| TypeScript | 5.7 | Superset de JavaScript |
-| Angular Material | Latest | Biblioteca de componentes UI |
-| RxJS | 7.8 | Programación reactiva |
-| flag-icons | Latest | Iconos de banderas nacionales |
-| HttpClient | Latest | Cliente para llamadas API |
+### Gestión de Países
+
+![Countries List](docs/listado-paises.png)
+
+*Listado con paginación y banderas nacionales*
+
+### Creación de País
+
+![Create Country](docs/creacion-pais.png)
+
+*Formulario de creación con validaciones*
+
+### Sistema de Auditoría
+
+![Audit Log](docs/pais-agregado.png)
+
+*Confirmación de operación con detalle de datos*
+
+---
+
+## 💡 Habilidades Demostradas
+
+| Categoría | Tecnologías y Conceptos |
+|-----------|-------------------------|
+| **Backend** | Node.js, Express.js, PostgreSQL, REST API, ES Modules |
+| **Frontend** | Angular 19, TypeScript 5.7, RxJS, Angular Material, Reactive Forms |
+| **Database** | SQL, Transacciones ACID, Diseño relacional, Normalización |
+| **Arquitectura** | API versionada, MVC, Separation of concerns, Clean code |
+| **Patrones** | Versionamiento semántico, Repository, Service layer, Observer |
+| **DevOps** | Variables de entorno, CORS, Configuración multi-ambiente |
+| **Testing** | Scripting de pruebas automatizadas |
+| **Soft Skills** | Documentación técnica, Organización de código, Git workflow |
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clonar repositorio
+git clone https://github.com/JamNow7/gestion-pib-paises.git
+cd gestion-pib-paises
+
+# Backend (Terminal 1)
+cd eva7
+npm install
+cp .env.example .env           # Configurar credenciales PostgreSQL
+createdb eva7                   # Crear base de datos
+npm run dev                    # → http://localhost:4000
+
+# Frontend (Terminal 2)
+cd eva7front
+npm install
+ng serve                       # → http://localhost:4200
+```
+
+### Verificación
+
+```bash
+# Probar Backend V1
+curl "http://localhost:4000/api/v1/paises?limit=2"
+
+# Probar Backend V2
+curl "http://localhost:4000/api/v2/paises?limit=2"
+
+# Probar búsqueda V2
+curl "http://localhost:4000/api/v2/paises/continente/America"
+```
+
+---
+
+## 🔄 Sistema de Versionamiento
+
+### Versiones Disponibles
+
+#### **V1 (Estable)** - Formato Simple
+
+```bash
+GET    /api/v1/paises              # Listado
+POST   /api/v1/paises              # Crear
+DELETE /api/v1/paises/:nombre      # Eliminar
+```
+
+#### **V2 (Mejorada)** - Formato Optimizado
+
+```bash
+GET    /api/v2/paises                        # Listado con metadata
+POST   /api/v2/paises                        # Crear con respuesta detallada
+DELETE /api/v2/paises/:nombre                # Eliminar con confirmación
+GET    /api/v2/paises/continente/:continente # Búsqueda por continente
+```
+
+### Características del Versionamiento
+
+| Feature | V1 | V2 |
+|---------|----|----|
+| CRUD básico | ✅ | ✅ |
+| Paginación | ✅ | ✅ |
+| Búsqueda por continente | ❌ | ✅ |
+| Metadata en respuesta | ❌ | ✅ |
+| Timestamp | ❌ | ✅ |
+| Compatibilidad hacia atrás | - | ✅ |
+
+### Uso del Frontend
+
+El frontend incluye un **selector de versión** que permite:
+- Cambiar entre V1 y V2 con un clic
+- Ver diferencias en tiempo real
+- Acceder a funcionalidades exclusivas de V2
+- Persistencia de la versión seleccionada (localStorage)
 
 ---
 
@@ -162,7 +330,7 @@ gestion-pib-paises/
 │   ├── src/
 │   │   ├── index.js                   # Punto de entrada con versionamiento
 │   │   ├── config.js                  # Configuración general
-│   │   ├── db.js                      # Conexión a base de datos
+│   │   ├── db.js                      # Pool de conexiones PostgreSQL
 │   │   ├── controllers/
 │   │   │   ├── paises.controller.js   # Controlador V1
 │   │   │   └── paises.v2.controller.js # Controlador V2
@@ -173,99 +341,28 @@ gestion-pib-paises/
 │   ├── queries/                       # Consultas SQL
 │   ├── test-versions.js              # Script de prueba de versiones
 │   ├── VERSIONES.md                   # Documentación de versiones
-│   ├── .env.example                   # Plantilla de configuración
 │   └── readme.md                      # Documentación backend
 │
 ├── eva7front/                         # Frontend Angular 19
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── app.component.ts/html/scss
-│   │   │   ├── api-version-selector/   # Componente selector de versión
-│   │   │   ├── buscar-pais-continente/ # Búsqueda V2 por continente
-│   │   │   ├── paises/                 # Listado principal
-│   │   │   ├── crear-pais/             # Creación de países
+│   │   │   ├── api-version-selector/  # Componente selector de versión
+│   │   │   ├── buscar-pais-continente/# Búsqueda V2 por continente
+│   │   │   ├── crear-pais/            # Formulario de creación
+│   │   │   ├── paises/                # Listado principal
 │   │   │   └── services/
-│   │   │       └── countries.services.ts # Servicio con multi-versión
-│   │   ├── environments/
-│   │   │   ├── environment.ts          # Configuración desarrollo
-│   │   │   └── environment.prod.ts     # Configuración producción
-│   │   └── ...
-│   ├── public/                        # Archivos estáticos
-│   ├── .env.example                   # Plantilla de configuración
+│   │   │       └── countries.services.ts # Servicio multi-versión
+│   │   └── environments/
+│   │       ├── environment.ts         # Configuración desarrollo
+│   │       └── environment.prod.ts    # Configuración producción
 │   └── README.md                      # Documentación frontend
 │
 └── docs/                              # Documentación y capturas
-    ├── api-version-2.png              # 🆕 Sistema de versionamiento
+    ├── api-version-2.png              # Sistema de versionamiento
     ├── listado-paises.png
     ├── creacion-pais.png
     ├── pais-agregado.png
     └── eliminacion-pais.png
-```
-
----
-
-## 📦 Requisitos Previos
-
-Antes de comenzar, asegúrate de tener instalado:
-
-- **Node.js** (v18 o superior)
-- **PostgreSQL** (v12 o superior)
-- **Angular CLI** (última versión)
-
-```bash
-# Instalar Angular CLI globalmente
-npm install -g @angular/cli
-```
-
----
-
-## 🚀 Instalación y Configuración
-
-### 1. Configuración del Backend
-
-```bash
-# Navegar al directorio del backend
-cd eva7
-
-# Instalar dependencias
-npm install
-
-# Crear archivo de configuración
-cp .env.example .env
-
-# Editar .env con tus credenciales de PostgreSQL
-# Luego, crear la base de datos
-createdb eva7
-
-# Iniciar el servidor en modo desarrollo
-npm run dev
-```
-
-El backend estará disponible en: `http://localhost:4000`
-
-### 2. Configuración del Frontend
-
-```bash
-# Navegar al directorio del frontend
-cd eva7front
-
-# Instalar dependencias
-npm install
-
-# Iniciar el servidor de desarrollo
-ng serve
-```
-
-El frontend estará disponible en: `http://localhost:4200`
-
-### 3. Verificación de Instalación
-
-```bash
-# Verificar que el backend esté funcionando
-curl "http://localhost:4000/api/v1/paises?limit=2"
-
-# Abrir en el navegador
-open http://localhost:4200
 ```
 
 ---
@@ -298,121 +395,48 @@ export const environment = {
 
 ---
 
-## 🎮 Uso del Sistema
-
-### **Capturas de Pantalla**
-
-#### Selector de Versión y Búsqueda V2
-
-![API Version 2](docs/api-version-2.png)
-
-*Figura 1: Sistema de versionamiento con selector V1/V2 y funcionalidad de búsqueda por continente*
-
-### **Iniciar los Servicios**
-
-**Backend:**
-```bash
-cd eva7
-npm install
-npm run dev
-```
-*Disponible en: `http://localhost:4000`*
-
-**Frontend:**
-```bash
-cd eva7front
-npm install
-ng serve
-```
-*Disponible en: `http://localhost:4200`*
-
-### **Probar el Versionamiento**
-
-**Vía navegador:**
-1. Abrir `http://localhost:4200`
-2. Usar el selector de versión en la parte superior
-3. Cambiar entre V1 (azul) y V2 (naranja)
-
-**Vía terminal:**
-```bash
-# Probar V1
-curl "http://localhost:4000/api/v1/paises?limit=2"
-
-# Probar V2
-curl "http://localhost:4000/api/v2/paises?limit=2"
-
-# Probar nueva funcionalidad V2
-curl "http://localhost:4000/api/v2/paises/continente/America"
-
-# Script automático de comparación
-cd eva7
-npm run test:versions
-```
-
-### **Diferencias en el Frontend**
-
-**V1 (Azul):**
-- Listado de países con formato simple
-- Operaciones CRUD básicas
-- Búsqueda por continente deshabilitada
-
-**V2 (Naranja):**
-- Listado con metadata mejorada
-- Operaciones CRUD con respuestas detalladas
-- **¡Búsqueda por continente HABILITADA!**
-
----
-
-## 📚 Documentación
-
-Para información específica de cada componente:
-
-- **Backend**: [`eva7/readme.md`](eva7/readme.md) - Configuración y uso del backend
-- **Frontend**: [`eva7front/README.md`](eva7front/README.md) - Configuración y uso del frontend
-- **Versiones**: [`eva7/VERSIONES.md`](eva7/VERSIONES.md) - Documentación detallada del sistema de versionamiento
-
-### **Documentación de Versiones**
-
-El archivo `VERSIONES.md` contiene:
-- Diferencias detalladas entre V1 y V2
-- Guía de migración de versiones
-- Formatos de respuesta comparados
-- Políticas de deprecación
-- Roadmap de versiones futuras
-
----
-
 ## 🔧 Solución de Problemas
 
 ### El backend no inicia
 
 1. Verificar que PostgreSQL esté ejecutándose
-2. Revisar las credenciales en el archivo `.env`
-3. Confirmar que la base de datos `eva7` exista
-4. Verificar que el puerto 4000 no esté en uso
+   ```bash
+   pg_isready
+   ```
+
+2. Crear base de datos si no existe
+   ```bash
+   createdb eva7
+   ```
+
+3. Verificar credenciales en `.env`
+
+4. Confirmar puerto 4000 disponible
+
+### El frontend no conecta
+
+1. Confirmar backend ejecutándose en puerto 4000
+
+2. Verificar configuración CORS en backend
+
+3. Revisar URL en `environment.ts`
+
+4. Abrir DevTools para ver errores de red
+
+### Testing de Versiones
 
 ```bash
-# Verificar status de PostgreSQL
-pg_isready
-
-# Crear base de datos si no existe
-createdb eva7
+cd eva7
+npm run test:versions    # Script comparativo V1 vs V2
 ```
-
-### El frontend no conecta con el backend
-
-1. Confirmar que el backend esté ejecutándose
-2. Verificar la configuración de CORS
-3. Revisar la URL configurada en `environment.ts`
-4. Abrir las DevTools del navegador para ver errores de red
 
 ---
 
-## 🤝 Contribución
+## 📚 Documentación Adicional
 
-Este proyecto fue desarrollado con fines académicos y de aprendizaje.
-
-Las sugerencias, mejoras y contribuciones son bienvenidas.
+- **Backend**: [`eva7/readme.md`](eva7/readme.md) - Configuración detallada backend
+- **Frontend**: [`eva7front/README.md`](eva7front/README.md) - Configuración detallada frontend
+- **Versiones**: [`eva7/VERSIONES.md`](eva7/VERSIONES.md) - Documentación completa del versionamiento
 
 ---
 
@@ -420,18 +444,14 @@ Las sugerencias, mejoras y contribuciones son bienvenidas.
 
 **Claudio Cataldo**
 
-- GitHub: [JamNow7](https://github.com/JamNow7)
-
----
-
-## 📄 Licencia
-
-Este proyecto es de uso académico y educativo.
+- 🐙 GitHub: [JamNow7](https://github.com/JamNow7)
 
 ---
 
 <div align="center">
 
-**⭐ Si encuentras útil este proyecto, considera darle una estrella en GitHub**
+**⭐ Si encuentras útil este proyecto, considera darle una estrella**
+
+Desarrollado con ❤️ usando Node.js, Angular y PostgreSQL
 
 </div>
