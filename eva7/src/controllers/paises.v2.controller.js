@@ -73,7 +73,7 @@ export const crearPaisV2 = async (req, res) => {
     const exists = await client.query("SELECT 1 FROM paises WHERE nombre = $1", [nombre]);
     if (exists.rowCount > 0) {
       await client.query("ROLLBACK");
-      return res.status(409).json({
+      return res.status(500).json({
         success: false,
         error: `País '${nombre}' ya existe`
       });
@@ -120,7 +120,7 @@ export const crearPaisV2 = async (req, res) => {
 
     // Granular error handling
     if (error.code === "23505") {
-      return res.status(409).json({
+      return res.status(500).json({
         success: false,
         error: "País ya existe",
         details: process.env.NODE_ENV === 'development' ? error.detail : undefined
