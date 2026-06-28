@@ -7,6 +7,9 @@ import express from 'express';
 import request from 'supertest';
 import cors from 'cors';
 import { getPaises, crearPais, eliminarPais } from '../../../src/controllers/paises.controller.js';
+import pg from 'pg';
+
+const { Pool } = pg;
 
 // Crear una app de Express para testing
 const app = express();
@@ -23,10 +26,24 @@ app.use('/api/v1', router);
 
 // Pool de BD para verificaciones directas
 let dbPool;
+let _createdLocalPool = false;
 
 beforeAll(async () => {
-  // Reusar el pool global inicializado en tests/setup.js para evitar carreras entre workers
+  // Reusar el pool global inicializado en tests/setup.js cuando exista,
+  // pero crear uno local como fallback para cada worker si no está disponible.
   dbPool = global.testPool || global.dbPool;
+
+  if (!dbPool) {
+    dbPool = new Pool(global.TEST_DB_CONFIG);
+    await dbPool.connect();
+    _createdLocalPool = true;
+  }
+});
+
+afterAll(async () => {
+  if (_createdLocalPool && dbPool) {
+    await dbPool.end();
+  }
 });
 
 describe('API V1 - Países', () => {
