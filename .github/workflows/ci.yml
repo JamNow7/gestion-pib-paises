@@ -37,11 +37,20 @@ jobs:
       - run: npm test
         env:
           NODE_ENV: test
+          # Standard PostgreSQL env vars (used by node-postgres)
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGHOST: localhost
+          PGPORT: 5432
+          PGDATABASE: eva7
+          # Custom DB_* vars (used by app config)
           DB_USER: postgres
           DB_PASSWORD: postgres
           DB_HOST: localhost
           DB_PORT: 5432
           DB_DATABASE: eva7
+          # Connection string (some libs prefer this)
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/eva7
 
   frontend-tests:
     runs-on: ubuntu-latest
