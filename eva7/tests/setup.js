@@ -156,7 +156,13 @@ afterEach(async () => {
 
 // Teardown después de todos los tests
 afterAll(async () => {
-  await teardownTestDb();
+  // Solo cerrar el pool desde el worker principal de Jest para evitar
+  // cerrar un pool que otros workers todavía están usando
+  if (!process.env.JEST_WORKER_ID || process.env.JEST_WORKER_ID === '1') {
+    await teardownTestDb();
+  } else {
+    console.log(`Worker ${process.env.JEST_WORKER_ID} skipping DB teardown`);
+  }
 });
 
 // Hacer disponibles las funciones globalmente

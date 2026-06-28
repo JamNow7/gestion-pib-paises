@@ -48,7 +48,7 @@ jobs:
             nc -z 127.0.0.1 5432 && echo "Postgres up" && break
             echo "Waiting for Postgres..." && sleep 1
           done
-      - run: npm test
+      - run: npm test -- --runInBand
         env:
           NODE_ENV: test
           # Standard PostgreSQL env vars (used by node-postgres)
