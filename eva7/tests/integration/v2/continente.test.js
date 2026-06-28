@@ -18,9 +18,15 @@ app.use(express.json());
 
 // Crear router con las rutas V2
 const router = express.Router();
-// debug: mostrar tipo/valor del handler
-console.log('DEBUG getPaisesV2:', typeof getPaisesV2, getPaisesV2);
-console.log('DEBUG getPaisesByContinenteV2:', typeof getPaisesByContinenteV2, getPaisesByContinenteV2);
+
+// Debug: confirmar que los handlers se importaron correctamente antes de registrar las rutas
+console.log('DEBUG getPaisesV2:', typeof getPaisesV2);
+console.log('DEBUG getPaisesByContinenteV2:', typeof getPaisesByContinenteV2);
+
+if (typeof getPaisesV2 !== 'function' || typeof getPaisesByContinenteV2 !== 'function') {
+  throw new Error(`Handlers invalid: getPaisesV2=${typeof getPaisesV2}, getPaisesByContinenteV2=${typeof getPaisesByContinenteV2}`);
+}
+
 router.get('/paises', getPaisesV2);
 router.get('/paises/continente/:continente?', getPaisesByContinenteV2);
 
@@ -28,10 +34,17 @@ app.use('/api/v2', router);
 
 // Pool de BD para verificaciones directas
 let dbPool;
+let _createdLocalPool = false;
 
 beforeAll(async () => {
-  // Reutilizar el pool global inicializado en tests/setup.js
+  // Reusar el pool global inicializado en tests/setup.js para evitar carreras entre workers
   dbPool = global.testPool || global.dbPool;
+
+  if (!dbPool) {
+    dbPool = new Pool(global.TEST_DB_CONFIG);
+    await dbPool.connect();
+    _createdLocalPool = true;
+  }
 
   // Insertar datos de prueba para continentes específicos
   await dbPool.query(`
@@ -51,6 +64,12 @@ beforeAll(async () => {
       ('AmericaPais1', 25000, 26000)
     ON CONFLICT (nombre) DO NOTHING
   `);
+});
+
+afterAll(async () => {
+  if (_createdLocalPool && dbPool) {
+    await dbPool.end();
+  }
 });
 
 describe('API V2 - Búsqueda por Continente', () => {
