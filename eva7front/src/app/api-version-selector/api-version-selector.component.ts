@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CountriesService } from '../services/countries.services';
+import { LocationService } from '../services/location.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -11,14 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ApiVersionSelectorComponent {
   private countriesService = inject(CountriesService);
+  private locationService = inject(LocationService);
   currentVersion = this.countriesService.getVersion();
 
   switchVersion(version: 'v1' | 'v2') {
     this.countriesService.setVersion(version);
     this.currentVersion = version;
-    if (typeof window !== 'undefined') {
-      window.location.reload();
-    }
+    this.locationService.reload();
   }
 
   resetToDefault() {
@@ -26,8 +26,6 @@ export class ApiVersionSelectorComponent {
       localStorage.removeItem('api_version');
     }
     this.countriesService.setVersion('v1');
-    if (typeof window !== 'undefined') {
-      window.location.reload();
-    }
+    this.locationService.reload();
   }
 }

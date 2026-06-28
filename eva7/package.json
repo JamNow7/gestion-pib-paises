@@ -5,10 +5,19 @@
   "type": "module",
   "scripts": {
     "test:versions": "node test-versions.js",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
-  "keywords": ["api", "rest", "versioning", "express", "postgresql"],
+  "keywords": [
+    "api",
+    "rest",
+    "versioning",
+    "express",
+    "postgresql"
+  ],
   "author": "",
   "license": "ISC",
   "description": "API de Gestión de Países con versionamiento",
@@ -20,6 +29,9 @@
     "pg": "^8.21.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   }
 }

@@ -110,12 +110,13 @@ export class CountriesService {
   }
 
   eliminarPais(nombre: string): Observable<any> {
+    const nombreCodificado = encodeURIComponent(nombre);
     if (this.currentVersion === 'v1') {
-      return this.http.delete<ApiResponseV1<any>>(this.getUrl(`/paises/${nombre}`)).pipe(
+      return this.http.delete<ApiResponseV1<any>>(this.getUrl(`/paises/${nombreCodificado}`)).pipe(
         map(response => response.message || 'País eliminado')
       );
     } else {
-      return this.http.delete<ApiResponseV2<any>>(this.getUrl(`/paises/${nombre}`)).pipe(
+      return this.http.delete<ApiResponseV2<any>>(this.getUrl(`/paises/${nombreCodificado}`)).pipe(
         map(response => {
           if (response.result && typeof response.result === 'object' && 'message' in response.result) {
             return (response.result as any).message;

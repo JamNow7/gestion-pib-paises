@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, HttpClientTestingModule],
     }).compileComponents();
   });
 
@@ -20,10 +21,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('eva7front');
   });
 
-  it('should render title', () => {
+  it('should render toolbar with title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, eva7front');
+    expect(compiled.querySelector('mat-toolbar span')?.textContent).toContain('Gestión Paises');
   });
 });

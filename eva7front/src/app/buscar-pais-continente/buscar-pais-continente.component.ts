@@ -45,8 +45,8 @@ export class BuscarPaisContinenteComponent {
 
     this.countriesService.getPaisesByContinente(continente).subscribe({
       next: (paises) => {
-        this.paisesEncontrados = paises;
-        this.noResultados = paises.length === 0;
+        this.paisesEncontrados = paises || [];
+        this.noResultados = !paises || paises.length === 0;
       },
       error: (err) => {
         console.error('Error en búsqueda:', err);
