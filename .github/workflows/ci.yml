@@ -37,6 +37,11 @@ jobs:
       - run: npm test
         env:
           NODE_ENV: test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_DATABASE: eva7
 
   frontend-tests:
     runs-on: ubuntu-latest
