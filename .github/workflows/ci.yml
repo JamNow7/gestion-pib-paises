@@ -9,6 +9,13 @@ on:
 jobs:
   backend-tests:
     runs-on: ubuntu-latest
+    env:
+      # Forzar variables de BD específicas para los tests (evita que DB_USER/DB_* del runner interfieran)
+      TEST_DB_USER: postgres
+      TEST_DB_PASSWORD: postgres
+      TEST_DB_HOST: 127.0.0.1
+      TEST_DB_PORT: 5432
+      TEST_DB_DATABASE: eva7
     services:
       postgres:
         image: postgres:15
@@ -17,7 +24,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: eva7
         options: >-
-          --health-cmd pg_isready
+          --health-cmd="pg_isready -U postgres -d eva7"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -34,6 +41,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./eva7/package-lock.json
       - run: npm ci
+      - name: Wait for Postgres
+        run: |
+          # Esperar hasta 30s a que Postgres acepte conexiones en el puerto 5432
+          for i in {1..30}; do
+            nc -z 127.0.0.1 5432 && echo "Postgres up" && break
+            echo "Waiting for Postgres..." && sleep 1
+          done
       - run: npm test
         env:
           NODE_ENV: test

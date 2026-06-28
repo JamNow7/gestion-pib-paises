@@ -11,13 +11,13 @@ dotenv.config();
 
 const { Pool } = pg;
 
-// Configuración de BD de pruebas
+// Configuración de BD de pruebas (usar solo variables TEST_DB_* para evitar contaminación del runner)
 export const TEST_DB_CONFIG = {
-  user: process.env.TEST_DB_USER || process.env.DB_USER || 'postgres',
-  password: process.env.TEST_DB_PASSWORD || process.env.DB_PASSWORD || 'postgres',
-  host: process.env.TEST_DB_HOST || process.env.DB_HOST || 'localhost',
-  port: process.env.TEST_DB_PORT || process.env.DB_PORT || 5432,
-  database: process.env.DB_DATABASE || 'eva7',
+  user: process.env.TEST_DB_USER ?? 'postgres',
+  password: process.env.TEST_DB_PASSWORD ?? 'postgres',
+  host: process.env.TEST_DB_HOST ?? process.env.DB_HOST ?? '127.0.0.1',
+  port: process.env.TEST_DB_PORT ? Number(process.env.TEST_DB_PORT) : (process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432),
+  database: process.env.TEST_DB_DATABASE ?? 'eva7',
 };
 
 // Pool de conexiones para tests
