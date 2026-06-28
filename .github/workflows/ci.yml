@@ -9,6 +9,20 @@ on:
 jobs:
   backend-tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: eva7
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     defaults:
       run:
         working-directory: ./eva7
@@ -21,6 +35,8 @@ jobs:
           cache-dependency-path: ./eva7/package-lock.json
       - run: npm ci
       - run: npm test
+        env:
+          NODE_ENV: test
 
   frontend-tests:
     runs-on: ubuntu-latest
