@@ -28,19 +28,41 @@ export const crearPais = async (req, res) => {
     return res.status(400).json({ ok: false, message: "Todos los campos son requeridos" });
   }
 
+  // Validate numeric fields
+  const poblacionInt = Number.isInteger(poblacion) ? poblacion : parseInt(poblacion, 10);
+  const pib2019Int = Number.isInteger(pib_2019) ? pib_2019 : parseInt(pib_2019, 10);
+  const pib2020Int = Number.isInteger(pib_2020) ? pib_2020 : parseInt(pib_2020, 10);
+
+  if (Number.isNaN(poblacionInt) || Number.isNaN(pib2019Int) || Number.isNaN(pib2020Int)) {
+    return res.status(400).json({
+      ok: false,
+      message: "Campos numéricos inválidos: poblacion, pib_2019 y pib_2020 deben ser enteros"
+    });
+  }
+
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
+    // Check existence before insert to avoid unique violation
+    const exists = await client.query("SELECT 1 FROM paises WHERE nombre = $1", [nombre]);
+    if (exists.rowCount > 0) {
+      await client.query("ROLLBACK");
+      return res.status(409).json({
+        ok: false,
+        message: `País '${nombre}' ya existe`
+      });
+    }
+
     await client.query(
       "INSERT INTO paises (nombre, continente, poblacion) VALUES ($1, $2, $3)",
-      [nombre, continente, poblacion]
+      [nombre, continente, poblacionInt]
     );
 
     await client.query(
       "INSERT INTO paises_pib (nombre, pib_2019, pib_2020) VALUES ($1, $2, $3)",
-      [nombre, pib_2019, pib_2020]
+      [nombre, pib2019Int, pib2020Int]
     );
 
     await client.query(
@@ -57,6 +79,22 @@ export const crearPais = async (req, res) => {
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error al crear el país:", error);
+
+    // Granular error handling
+    if (error.code === "23505") {
+      return res.status(409).json({
+        ok: false,
+        message: "País ya existe"
+      });
+    }
+
+    if (error.code === "22P02") {
+      return res.status(400).json({
+        ok: false,
+        message: "Entrada inválida para campo numérico"
+      });
+    }
+
     res.status(500).json({ ok: false, message: "Error al crear el país" });
   } finally {
     client.release();

@@ -52,19 +52,41 @@ export const crearPaisV2 = async (req, res) => {
     });
   }
 
+  // Validate numeric fields
+  const poblacionInt = Number.isInteger(poblacion) ? poblacion : parseInt(poblacion, 10);
+  const pib2019Int = Number.isInteger(pib_2019) ? pib_2019 : parseInt(pib_2019, 10);
+  const pib2020Int = Number.isInteger(pib_2020) ? pib_2020 : parseInt(pib_2020, 10);
+
+  if (Number.isNaN(poblacionInt) || Number.isNaN(pib2019Int) || Number.isNaN(pib2020Int)) {
+    return res.status(400).json({
+      success: false,
+      error: "Campos numéricos inválidos: poblacion, pib_2019 y pib_2020 deben ser enteros"
+    });
+  }
+
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
+    // Check existence before insert to avoid unique violation
+    const exists = await client.query("SELECT 1 FROM paises WHERE nombre = $1", [nombre]);
+    if (exists.rowCount > 0) {
+      await client.query("ROLLBACK");
+      return res.status(409).json({
+        success: false,
+        error: `País '${nombre}' ya existe`
+      });
+    }
+
     await client.query(
       "INSERT INTO paises (nombre, continente, poblacion) VALUES ($1, $2, $3)",
-      [nombre, continente, poblacion]
+      [nombre, continente, poblacionInt]
     );
 
     await client.query(
       "INSERT INTO paises_pib (nombre, pib_2019, pib_2020) VALUES ($1, $2, $3)",
-      [nombre, pib_2019, pib_2020]
+      [nombre, pib2019Int, pib2020Int]
     );
 
     await client.query(
@@ -84,9 +106,9 @@ export const crearPaisV2 = async (req, res) => {
         country: {
           nombre,
           continente,
-          poblacion,
-          pib_2019,
-          pib_2020
+          poblacion: poblacionInt,
+          pib_2019: pib2019Int,
+          pib_2020: pib2020Int
         },
         created_at: new Date().toISOString(),
         version: "2.0"
@@ -95,6 +117,24 @@ export const crearPaisV2 = async (req, res) => {
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error al crear el país:", error);
+
+    // Granular error handling
+    if (error.code === "23505") {
+      return res.status(409).json({
+        success: false,
+        error: "País ya existe",
+        details: process.env.NODE_ENV === 'development' ? error.detail : undefined
+      });
+    }
+
+    if (error.code === "22P02") {
+      return res.status(400).json({
+        success: false,
+        error: "Entrada inválida para campo numérico",
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+
     res.status(500).json({
       success: false,
       error: "Error al crear el país",
