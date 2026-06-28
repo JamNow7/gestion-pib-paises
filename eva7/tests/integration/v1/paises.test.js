@@ -7,9 +7,6 @@ import express from 'express';
 import request from 'supertest';
 import cors from 'cors';
 import { getPaises, crearPais, eliminarPais } from '../../../src/controllers/paises.controller.js';
-import pg from 'pg';
-
-const { Pool } = pg;
 
 // Crear una app de Express para testing
 const app = express();
@@ -28,7 +25,7 @@ app.use('/api/v1', router);
 let dbPool;
 
 beforeAll(async () => {
-  // Reutilizar el pool global inicializado en tests/setup.js
+  // Reusar el pool global inicializado en tests/setup.js para evitar carreras entre workers
   dbPool = global.testPool || global.dbPool;
 });
 

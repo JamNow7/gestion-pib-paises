@@ -7,9 +7,6 @@ import express from 'express';
 import request from 'supertest';
 import cors from 'cors';
 import { getPaisesByContinenteV2, getPaisesV2 } from '../../../src/controllers/paises.v2.controller.js';
-import pg from 'pg';
-
-const { Pool } = pg;
 
 // Crear una app de Express para testing
 const app = express();
@@ -18,9 +15,11 @@ app.use(express.json());
 
 // Crear router con las rutas V2
 const router = express.Router();
-// debug: mostrar tipo/valor del handler
-console.log('DEBUG getPaisesV2:', typeof getPaisesV2, getPaisesV2);
-console.log('DEBUG getPaisesByContinenteV2:', typeof getPaisesByContinenteV2, getPaisesByContinenteV2);
+
+// Debug: confirmar que los handlers se importaron correctamente antes de registrar las rutas
+console.log('DEBUG getPaisesV2:', typeof getPaisesV2);
+console.log('DEBUG getPaisesByContinenteV2:', typeof getPaisesByContinenteV2);
+
 router.get('/paises', getPaisesV2);
 router.get('/paises/continente/:continente?', getPaisesByContinenteV2);
 
@@ -30,7 +29,7 @@ app.use('/api/v2', router);
 let dbPool;
 
 beforeAll(async () => {
-  // Reutilizar el pool global inicializado en tests/setup.js
+  // Reusar el pool global inicializado en tests/setup.js para evitar carreras entre workers
   dbPool = global.testPool || global.dbPool;
 
   // Insertar datos de prueba para continentes específicos
