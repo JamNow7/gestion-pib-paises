@@ -5,9 +5,10 @@ const { Pool } = pg;
 
 const pool = new Pool(DB_CONFIG);
 
-pool.query('SELECT current_database()', (err, res) => {
-    if (!err) console.log('🔥 Conectado a BD:', res.rows[0].current_database);
-  });
+// Eliminada consulta al importar para evitar efectos colaterales en tests
+// pool.query('SELECT current_database()', (err, res) => {
+//     if (!err) console.log('🔥 Conectado a BD:', res.rows[0].current_database);
+//   });
 
 pool.on("connect", () => {
   console.log("✓ Conectado a PostgreSQL");

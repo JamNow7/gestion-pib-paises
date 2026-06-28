@@ -18,6 +18,9 @@ app.use(express.json());
 
 // Crear router con las rutas V2
 const router = express.Router();
+// debug: mostrar tipo/valor del handler
+console.log('DEBUG getPaisesV2:', typeof getPaisesV2, getPaisesV2);
+console.log('DEBUG getPaisesByContinenteV2:', typeof getPaisesByContinenteV2, getPaisesByContinenteV2);
 router.get('/paises', getPaisesV2);
 router.get('/paises/continente/:continente?', getPaisesByContinenteV2);
 
@@ -27,8 +30,8 @@ app.use('/api/v2', router);
 let dbPool;
 
 beforeAll(async () => {
-  dbPool = new Pool(global.TEST_DB_CONFIG);
-  await dbPool.connect();
+  // Reutilizar el pool global inicializado en tests/setup.js
+  dbPool = global.testPool || global.dbPool;
 
   // Insertar datos de prueba para continentes específicos
   await dbPool.query(`

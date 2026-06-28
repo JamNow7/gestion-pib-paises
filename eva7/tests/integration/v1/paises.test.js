@@ -28,8 +28,8 @@ app.use('/api/v1', router);
 let dbPool;
 
 beforeAll(async () => {
-  dbPool = new Pool(global.TEST_DB_CONFIG);
-  await dbPool.connect();
+  // Reutilizar el pool global inicializado en tests/setup.js
+  dbPool = global.testPool || global.dbPool;
 });
 
 describe('API V1 - Países', () => {
