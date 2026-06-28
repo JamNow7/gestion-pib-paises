@@ -161,5 +161,6 @@ afterAll(async () => {
 
 // Hacer disponibles las funciones globalmente
 global.testPool = testPool;
+global.dbPool = testPool;  // alias esperado por los tests
 global.TEST_DB_CONFIG = TEST_DB_CONFIG;
 global.cleanupTestDb = cleanupTestDb;
