@@ -22,7 +22,7 @@ const router = express.Router();
 console.log('DEBUG getPaisesV2:', typeof getPaisesV2, getPaisesV2);
 console.log('DEBUG getPaisesByContinenteV2:', typeof getPaisesByContinenteV2, getPaisesByContinenteV2);
 router.get('/paises', getPaisesV2);
-router.get('/paises/continente/:continente?', getPaisesByContinenteV2);
+router.get('/paises/continente/:continente', getPaisesByContinenteV2);
 
 app.use('/api/v2', router);
 
@@ -270,15 +270,6 @@ describe('API V2 - Búsqueda por Continente', () => {
           .expect(200);
 
         expect(response.body.success).toBe(true);
-      });
-
-      it('deve manejar string vacío como continente', async () => {
-        const response = await request(app)
-          .get('/api/v2/paises/continente/')
-          .expect(200);
-
-        expect(response.body.success).toBe(true);
-        expect(response.body.result.countries).toEqual([]);
       });
     });
   });

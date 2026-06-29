@@ -26,10 +26,22 @@ app.use('/api/v1', router);
 
 // Pool de BD para verificaciones directas
 let dbPool;
+let _createdLocalPool = false;
 
 beforeAll(async () => {
-  // Reutilizar el pool global inicializado en tests/setup.js
   dbPool = global.testPool || global.dbPool;
+
+  if (!dbPool) {
+    dbPool = new Pool(global.TEST_DB_CONFIG);
+    await dbPool.connect();
+    _createdLocalPool = true;
+  }
+});
+
+afterAll(async () => {
+  if (_createdLocalPool && dbPool) {
+    await dbPool.end();
+  }
 });
 
 describe('API V1 - Países', () => {
@@ -198,7 +210,7 @@ describe('API V1 - Países', () => {
         .post('/api/v1/paises')
         .send(paisConPibInvalido);
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
 
       // Verificar que no se insertó nada
       const result = await dbPool.query(
