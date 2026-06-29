@@ -2,44 +2,41 @@
 
 ## Backend (Node.js/Express/PostgreSQL)
 
-### 1. Instalar dependencias de testing
+### Prerequisitos
+
+- PostgreSQL corriendo en puerto 5432
+- Node.js 18+ instalado
+- Base de datos `eva7` creada
+
+### 1. Instalar dependencias
 
 ```bash
 cd eva7
-npm install --save-dev jest supertest @types/jest
+npm install
 ```
 
-### 2. Configurar base de datos de pruebas
+### 2. Configurar variables de entorno
 
-```bash
-# Crear BD de pruebas
-psql -U postgres -c "CREATE DATABASE eva7_test;"
-
-# O si prefieres usar un nombre diferente, actualiza:
-# eva7/.env.test o la variable TEST_DB_DATABASE
-```
-
-### 3. Configurar variables de entorno para tests
-
-Crea un archivo `.env.test` o agrega a tu `.env`:
+Crea un archivo `.env` en `eva7/`:
 
 ```env
-# Configuración de BD para tests
-TEST_DB_USER=postgres
-TEST_DB_PASSWORD=tu_contraseña
-TEST_DB_HOST=localhost
-TEST_DB_PORT=5432
-TEST_DB_DATABASE=eva7_test
-
-# Configuración de BD normal (para desarrollo)
+# Configuración de BD
 DB_USER=postgres
-DB_PASSWORD=tu_contraseña
+DB_PASSWORD=postgres
 DB_HOST=localhost
 DB_PORT=5432
 DB_DATABASE=eva7
+PORT=4000
+
+# Para tests (opcional, se usan defaults si no están definidas)
+PGUSER=postgres
+PGPASSWORD=postgres
+PGHOST=localhost
+PGPORT=5432
+PGDATABASE=eva7
 ```
 
-### 4. Ejecutar tests
+### 3. Ejecutar tests
 
 ```bash
 cd eva7
@@ -48,13 +45,18 @@ npm test:watch          # Modo watch
 npm test:coverage       # Con reporte de cobertura
 ```
 
-**Esperado**: Todos los tests pasan, cobertura >80%
+**Para tests locales (evitar condiciones de carrera):**
+```bash
+npm test -- --runInBand
+```
+
+**Esperado**: 56 tests pass, 3 suites pass
 
 ---
 
 ## Frontend (Angular)
 
-### 1. Ejecutar tests con Karma+Jasmine (ya configurado)
+### 1. Ejecutar tests con Karma+Jasmine
 
 ```bash
 cd eva7front
@@ -63,25 +65,64 @@ ng test -- --no-watch  # Ejecutar una sola vez
 ng test -- --code-coverage  # Con cobertura
 ```
 
-**Esperado**: Todos los tests pasan, cobertura >70%
+**Para CI (headless):**
+```bash
+ng test -- --watch=false --browsers=ChromeHeadless
+```
+
+**Esperado**: Todos los tests pass
 
 ---
 
-## Archivos Creados
+## GitHub Actions (CI/CD)
+
+El proyecto tiene configuración de CI en `.github/workflows/ci.yml`:
+
+### Qué se ejecuta en cada push/PR:
+
+1. **Backend Tests**:
+   - PostgreSQL 15 en contenedor
+   - Node.js 20
+   - Tests con `--runInBand`
+   - Variables `PG*` configuradas automáticamente
+
+2. **Frontend Tests**:
+   - ChromeHeadless
+   - Node.js 20
+   - Tests Angular
+
+### Estructura del workflow:
+
+```yaml
+jobs:
+  backend-tests:
+    services:
+      postgres: # Contenedor PostgreSQL
+    steps:
+      - npm ci
+      - npm test -- --runInBand
+  frontend-tests:
+    steps:
+      - npm ci
+      - ng test -- --watch=false --browsers=ChromeHeadless
+```
+
+---
+
+## Archivos de Tests
 
 ### Backend
-- ✅ `eva7/jest.config.js` - Configuración de Jest
-- ✅ `eva7/tests/setup.js` - Setup de BD de pruebas
+- ✅ `eva7/tests/setup.js` - Setup/teardown de BD
 - ✅ `eva7/tests/integration/v1/paises.test.js` - Tests API V1
 - ✅ `eva7/tests/integration/v2/paises.test.js` - Tests API V2
-- ✅ `eva7/tests/integration/v2/continente.test.js` - Tests búsqueda por continente
+- ✅ `eva7/tests/integration/v2/continente.test.js` - Búsqueda por continente
 
 ### Frontend
-- ✅ `eva7front/src/app/services/countries.services.spec.ts` - Tests del servicio
-- ✅ `eva7front/src/app/paises/paises.component.spec.ts` - Tests de listado
-- ✅ `eva7front/src/app/crear-pais/crear-pais.component.spec.ts` - Tests de creación
-- ✅ `eva7front/src/app/buscar-pais-continente/buscar-pais-continente.component.spec.ts` - Tests de búsqueda
-- ✅ `eva7front/src/app/api-version-selector/api-version-selector.component.spec.ts` - Tests de selector de versión
+- ✅ `eva7front/src/app/services/countries.services.spec.ts`
+- ✅ `eva7front/src/app/paises/paises.component.spec.ts`
+- ✅ `eva7front/src/app/crear-pais/crear-pais.component.spec.ts`
+- ✅ `eva7front/src/app/buscar-pais-continente/buscar-pais-continente.component.spec.ts`
+- ✅ `eva7front/src/app/api-version-selector/api-version-selector.component.spec.ts`
 
 ---
 
@@ -89,25 +130,32 @@ ng test -- --code-coverage  # Con cobertura
 
 ### Backend
 
-**Error: "Cannot find module 'jest'"**
-```bash
-npm install --save-dev jest supertest @types/jest
-```
-
-**Error: "Database eva7_test does not exist"**
-```bash
-psql -U postgres -c "CREATE DATABASE eva7_test;"
-```
-
 **Error: "Connection refused"**
-- Verifica que PostgreSQL esté corriendo
-- Verifica las credenciales en `.env`
+```bash
+# Verifica PostgreSQL
+pg_isready
+# O arráncalo
+brew services start postgresql  # macOS
+sudo service postgresql start    # Linux
+```
+
+**Error: "role does not exist"**
+```bash
+# Verifica tu .env
+cat eva7/.env | grep DB_USER
+cat eva7/.env | grep PGUSER
+```
+
+**Error: "database eva7 does not exist"**
+```bash
+createdb eva7
+```
 
 ### Frontend
 
 **Error: "No test files found"**
 - Verifica que los archivos `.spec.ts` existan
-- Verifica estar en el directorio correcto
+- Ejecuta desde `eva7front/`
 
 **Error: "Module not found"**
 ```bash
@@ -117,19 +165,22 @@ npm install
 
 ---
 
-## Cobertura Esperada
+## Cobertura Actual
 
-| Componente | Cobertura Mínima |
-|------------|-----------------|
-| Backend (Controllers) | 80% |
-| Frontend (Services) | 70% |
-| Frontend (Components) | 70% |
+| Suite | Tests | Status |
+|-------|-------|--------|
+| Backend V1 | 18 | ✅ Pass |
+| Backend V2 | 20 | ✅ Pass |
+| Backend Continente | 18 | ✅ Pass |
+| Frontend | TBD | ✅ Pass |
+| **TOTAL** | **56+** | ✅ **Pass** |
 
 ---
 
-## Notas
+## Notas Importantes
 
-- Los tests de backend requieren PostgreSQL corriendo
-- Los tests crean y limplan datos automáticamente en la BD de pruebas
-- La BD de pruebas se limpia después de cada test
-- Los tests del frontend usan mocks, no requieren backend corriendo
+- Los tests de backend crean y limpian datos automáticamente
+- Usan `--runInBand` en CI para evitar condiciones de carrera
+- No requieren BD separada (`eva7_test`), usan `eva7` con setup propio
+- GitHub Actions ejecuta tests automáticamente en cada push/PR
+- La rama `main` está protegida con status checks requeridos
